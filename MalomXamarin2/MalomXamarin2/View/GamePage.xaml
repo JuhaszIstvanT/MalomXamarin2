@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MalomXamarin2.View.GamePage"
+             Title="Játék">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!-- stílusok a vezérlőknek -->
+            <Style x:Key="MainLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="Micro" />
+                <Setter Property="Margin" Value="1" />
+            </Style>
+            <Style x:Key="MainButtonStyle" TargetType="Button">
+                <Setter Property="FontSize" Value="Micro" />
+                <Setter Property="BackgroundColor" Value="Blue" />
+                <Setter Property="BorderRadius" Value="0" />
+                <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="BorderColor" Value="Blue" />
+                <Setter Property="Margin" Value="5" />
+                <Setter Property="HeightRequest" Value="30" />
+            </Style>
+            <Style x:Key="FieldStyle" TargetType="Button">
+                <Setter Property="FontSize" Value="Small" />
+                <Setter Property="Margin" Value="1" />
+                <Setter Property="BorderRadius" Value="0" />
+                <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="WidthRequest" Value="38" />
+                <Setter Property="HeightRequest" Value="38" />
+                <Style.Triggers>
+                    <!-- a színt a mező zárolása állítja be -->
+                    <DataTrigger TargetType="Button" Binding="{Binding IsLocked}" Value="True">
+                        <Setter Property="BackgroundColor" Value="Gray" />
+                        <Setter Property="TextColor" Value="White" />
+                        <Setter Property="BorderColor" Value="Gray" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Button" Binding="{Binding IsLocked}" Value="False">
+                        <Setter Property="BackgroundColor" Value="White" />
+                        <Setter Property="TextColor" Value="Black" />
+                        <Setter Property="BorderColor" Value="White" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- a gombokat a képernyő tetejére helyezzük -->
+        <Button Text="Új játék" Command="{Binding NewGameCommand}" Style="{StaticResource MainButtonStyle}" Grid.Row="0" HorizontalOptions="Start" />
+        <Button Text="Beállítások" Command="{Binding ExitCommand}" Style="{StaticResource MainButtonStyle}" Grid.Row="0" HorizontalOptions="End" />
+
+        <AbsoluteLayout Grid.Row="1">
+            <Line X1="50" Y1="50" X2="350" Y2="50" Stroke="Black" StrokeThickness="4"></Line>
+            <Line X1="100" Y1="100" X2="300" Y2="100" Stroke="Black" StrokeThickness="4"></Line>
+            <Line X1="150" Y1="150" X2="250" Y2="150" Stroke="Black" StrokeThickness="4"></Line>
+            <Line X1="50" Y1="50" X2="50" Y2="350" Stroke="Black" StrokeThickness="4"></Line>
+            <Line X1="100" Y1="100" X2="100" Y2="300" Stroke="Black" StrokeThickness="4"></Line>
+            <Line X1="150" Y1="150" X2="150" Y2="250" Stroke="Black" StrokeThickness="4"></Line>
+            <Line X1="350" Y1="50" X2="350" Y2="350" Stroke="Black" StrokeThickness="4"></Line>
+            <Line X1="300" Y1="100" X2="300" Y2="300" Stroke="Black" StrokeThickness="4"></Line>
+            <Line X1="250" Y1="150" X2="250" Y2="250" Stroke="Black" StrokeThickness="4"></Line>
+            <Line X1="50" Y1="350" X2="350" Y2="350" Stroke="Black" StrokeThickness="4"></Line>
+            <Line X1="100" Y1="300" X2="300" Y2="300" Stroke="Black" StrokeThickness="4"></Line>
+            <Line X1="150" Y1="250" X2="250" Y2="250" Stroke="Black" StrokeThickness="4"></Line>
+            <Line X1="200" Y1="50" X2="200" Y2="350" Stroke="Black" StrokeThickness="4"></Line>
+            <Line X1="50" Y1="200" X2="350" Y2="200" Stroke="Black" StrokeThickness="4"></Line>
+            <Rectangle AbsoluteLayout.LayoutBounds="151, 151, 98, 98" Fill="White"></Rectangle>
+
+            <ListView Grid.Row="1" ItemsSource="{Binding Fields}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Button Command="{Binding StepCommand}" CommandParameter="{Binding Number}">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Style.Triggers>
+                                        <DataTrigger TargetType="Button" Binding="{Binding Player}" Value="Blue">
+                                            <Setter Property="Background" Value="Blue"></Setter>
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Button" Binding="{Binding Player}" Value="Red">
+                                            <Setter Property="Background" Value="Red"></Setter>
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Button" Binding="{Binding Player}" Value="None">
+                                            <Setter Property="Opacity" Value="0"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </AbsoluteLayout>
+
+    </Grid>
+
+</ContentPage>
